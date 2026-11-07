@@ -36,8 +36,8 @@ export function Cases() {
   }, [emblaApi, hovered]);
 
   return (
-    <section id="work" className="relative pb-20 pt-16">
-      <div className="mx-auto max-w-7xl px-6 pb-8">
+    <section id="work" className="relative overflow-hidden pb-16 pt-12 sm:pb-20 sm:pt-16">
+      <div className="mx-auto max-w-7xl px-5 pb-6 sm:px-6 sm:pb-8">
         <Reveal>
           <p className="mb-4 font-mono text-[13px] tracking-[0.12em] text-ice">01 / РАБОТЫ</p>
           <h2 className="font-display text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.05]">
@@ -49,15 +49,20 @@ export function Cases() {
       <Reveal delay={0.12}>
         <div
           data-work-slider
-          className="relative mx-auto max-w-7xl px-6"
+          className="relative mx-auto max-w-7xl overflow-hidden px-5 sm:px-6"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
+          onPointerDown={(e) => {
+            if (e.pointerType !== "mouse") setHovered(true);
+          }}
+          onPointerUp={() => setHovered(false)}
+          onPointerCancel={() => setHovered(false)}
         >
           <div className="overflow-hidden rounded-[28px]" ref={ready ? emblaRef : undefined} suppressHydrationWarning>
             <div className="flex">
               {projects.map((project, i) => (
                 <article key={project.slug} className="min-w-0 flex-[0_0_100%]">
-                  <div className="relative h-[52vh] min-h-[340px] overflow-hidden">
+                  <div className="relative h-[46vh] min-h-[260px] overflow-hidden sm:h-[52vh] sm:min-h-[340px]">
                     <BackgroundVideo src={project.video} poster={project.poster} active={index === i} />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
@@ -75,7 +80,7 @@ export function Cases() {
           <button
             type="button"
             onClick={() => emblaApi?.scrollPrev()}
-            className="absolute left-8 top-1/2 z-10 hidden size-11 -translate-y-1/2 rounded-full border border-white/25 bg-ink/40 text-lg backdrop-blur-md md:grid md:place-items-center"
+            className="absolute left-3 top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-ink/40 text-lg backdrop-blur-md sm:left-8 sm:size-11"
             aria-label="Предыдущий проект"
           >
             ←
@@ -83,7 +88,7 @@ export function Cases() {
           <button
             type="button"
             onClick={() => emblaApi?.scrollNext()}
-            className="absolute right-8 top-1/2 z-10 hidden size-11 -translate-y-1/2 rounded-full border border-white/25 bg-ink/40 text-lg backdrop-blur-md md:grid md:place-items-center"
+            className="absolute right-3 top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-ink/40 text-lg backdrop-blur-md sm:right-8 sm:size-11"
             aria-label="Следующий проект"
           >
             →

@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="relative z-[2]">
+      <main className="relative z-[2] max-w-full overflow-x-clip">
         <Hero />
         <Marquee />
         <Cases />

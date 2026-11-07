@@ -3,20 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { createFluidSimulation, type FluidHandle } from "@/lib/fluid-simulation";
 
-function isMobileDevice() {
-  if (typeof navigator === "undefined") return true;
-  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;
-}
-
 function isWeakGpu() {
   const cores = navigator.hardwareConcurrency ?? 8;
   return cores <= 2;
 }
 
+function isNarrow() {
+  return window.innerWidth < 768;
+}
+
 function shouldDisable() {
   if (typeof window === "undefined") return true;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  return reduce || isMobileDevice() || isWeakGpu();
+  return reduce || isWeakGpu();
 }
 
 export function WebGLFluidOverlay() {
@@ -29,11 +28,12 @@ export function WebGLFluidOverlay() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const mobile = isNarrow();
     let handle: FluidHandle | null = null;
     const timer = window.setTimeout(() => {
       handle = createFluidSimulation(canvas, {
-        simResolution: 128,
-        dyeResolution: 512,
+        simResolution: mobile ? 96 : 128,
+        dyeResolution: mobile ? 256 : 512,
         dpr: 1,
       });
     }, 120);
@@ -49,7 +49,7 @@ export function WebGLFluidOverlay() {
       ref={canvasRef}
       aria-hidden
       className="pointer-events-none fixed inset-0 z-[1] h-full w-full bg-transparent mix-blend-screen"
-      style={{ opacity: enabled ? 0.55 : 0 }}
+      style={{ opacity: enabled ? 0.5 : 0 }}
     />
   );
 }

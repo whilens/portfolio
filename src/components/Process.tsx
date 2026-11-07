@@ -42,12 +42,14 @@ export function Process() {
   }, []);
 
   return (
-    <section id="process" ref={ref} className="relative overflow-hidden px-6 py-28">
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute left-0 top-1/3 h-px w-full bg-gradient-to-r from-transparent via-ice to-transparent opacity-50"
-        style={mounted ? { x: lineX } : undefined}
-      />
+    <section id="process" ref={ref} className="relative overflow-hidden px-5 py-20 sm:px-6 sm:py-28">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <motion.div
+          aria-hidden
+          className="absolute left-0 top-1/3 h-px w-full bg-gradient-to-r from-transparent via-ice to-transparent opacity-50"
+          style={mounted ? { x: lineX } : undefined}
+        />
+      </div>
       <div className="relative mx-auto max-w-7xl">
         <Reveal>
           <p className="mb-4 font-mono text-[13px] tracking-[0.12em] text-ice">03 / КАК МЫ РАБОТАЕМ</p>

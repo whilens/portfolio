@@ -12,10 +12,10 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-navy px-6 py-32">
+    <section id="contact" className="relative overflow-hidden bg-navy px-5 py-20 sm:px-6 sm:py-32">
       <div aria-hidden className="pf-grid pointer-events-none absolute inset-0 opacity-70" />
-      <div className="relative mx-auto flex max-w-7xl flex-wrap gap-16">
-        <Reveal className="min-w-[280px] flex-1">
+      <div className="relative mx-auto flex max-w-7xl flex-col gap-12 lg:flex-row lg:gap-16">
+        <Reveal className="w-full min-w-0 lg:flex-1">
           <p className="mb-4 font-mono text-[13px] tracking-[0.12em] text-ice">05 / КОНТАКТЫ</p>
           <h2 className="font-display text-[clamp(36px,5vw,72px)] font-extrabold leading-[1.02]">
             Расскажите
@@ -38,10 +38,10 @@ export function Contact() {
             ))}
           </div>
         </Reveal>
-        <Reveal delay={0.12} className="min-w-[280px] flex-1">
+        <Reveal delay={0.12} className="w-full min-w-0 lg:flex-1">
           <form
             onSubmit={onSubmit}
-            className="flex flex-col gap-5 rounded-[28px] border border-white/12 bg-ink p-9"
+            className="flex flex-col gap-5 rounded-[28px] border border-white/12 bg-ink p-6 sm:p-9"
           >
             {sent ? (
               <div className="py-10 text-center" role="status">

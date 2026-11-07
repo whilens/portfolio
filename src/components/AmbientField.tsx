@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 
 export function AmbientField() {
   const [mounted, setMounted] = useState(false);
-  const reduce = useReducedMotion();
+  const reducePref = useReducedMotion();
+  const reduce = mounted && Boolean(reducePref);
   const { scrollY } = useScroll();
   const ySlow = useTransform(scrollY, [0, 2400], [0, reduce ? 0 : -220]);
   const yFast = useTransform(scrollY, [0, 2400], [0, reduce ? 0 : -460]);
@@ -27,11 +28,12 @@ export function AmbientField() {
     return () => window.removeEventListener("pointermove", onMove);
   }, [mounted, reduce]);
 
-  if (!mounted) return null;
-
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <motion.div className="absolute inset-[-12%] opacity-80" style={{ y: ySlow, x: mouse.x * 0.4, rotate }}>
+      <motion.div
+        className="absolute inset-0 opacity-80"
+        style={mounted ? { y: ySlow, x: mouse.x * 0.4, rotate, scale: 1.12 } : undefined}
+      >
         <svg viewBox="0 0 1440 900" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
           <defs>
             <linearGradient id="glowA" x1="0" y1="0" x2="1" y2="1">
@@ -71,7 +73,10 @@ export function AmbientField() {
         </svg>
       </motion.div>
 
-      <motion.div className="absolute inset-[-8%] opacity-70" style={{ y: yFast, x: -mouse.x * 0.6 }}>
+      <motion.div
+        className="absolute inset-0 opacity-70"
+        style={mounted ? { y: yFast, x: -mouse.x * 0.6, scale: 1.08 } : undefined}
+      >
         <svg viewBox="0 0 1440 900" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
           <path
             d="M200 -40C240 180 80 340 260 520C420 680 180 760 420 980"
@@ -100,7 +105,10 @@ export function AmbientField() {
         </svg>
       </motion.div>
 
-      <div className="glow-orbs absolute inset-0" style={{ transform: `translate3d(0, ${mouse.y}px, 0)` }}>
+      <div
+        className="glow-orbs absolute inset-0"
+        style={mounted ? { transform: `translate3d(0, ${mouse.y}px, 0)` } : undefined}
+      >
         <span className="glow-orb left-[12%] top-[18%]" />
         <span className="glow-orb right-[16%] top-[42%]" />
         <span className="glow-orb left-[48%] bottom-[12%]" />

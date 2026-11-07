@@ -17,7 +17,9 @@ description: Conventions for the Next.js studio one-pager in studio-portfolio. U
 
 ## Переход услуг (ARROW)
 
-`Services` — две панели 100vh. GSAP pin только у тёмных цифр (`pinSpacing: false`): они остаются в кадре, белый слой с карточками наезжает сверху. Белую панель не пинить — иначе процесс/команда уедут под неё. Pin выкл на mobile и `prefers-reduced-motion`. Белая панель — `data-light-section`, шапка следит IntersectionObserver и инвертируется.
+`Services` — две панели 100vh. GSAP pin только у тёмных цифр (`pinSpacing: false`): они остаются в кадре, белый слой с карточками наезжает сверху. Белую панель не пинить — иначе процесс/команда уедут под неё. Pin выкл только на `prefers-reduced-motion`. Белая панель — `data-light-section`, шапка следит IntersectionObserver и инвертируется.
+
+Мобилка: полноэкранное бургер-меню (stagger ссылок, бургер→крест), стрелки слайдера, орб в hero, pin услуг и облегчённый fluid. Слабый GPU / reduced-motion по-прежнему глушат симуляцию.
 
 ## Слайдер работ
 
@@ -41,7 +43,7 @@ description: Conventions for the Next.js studio one-pager in studio-portfolio. U
 ## Фон
 
 - WebGL fluid: только случайные автооблака, **без splat по мыши**
-- Выкл на mobile / weak GPU / reduced-motion
+- На узком экране ниже разрешение (96/256), выкл на weak GPU / reduced-motion
 - Светящиеся линии и орбы — `AmbientField`, параллакс скролла и лёгкий сдвиг от курсора; монтировать после hydration
 - DPR cap 1
 
@@ -55,4 +57,4 @@ description: Conventions for the Next.js studio one-pager in studio-portfolio. U
 
 ## Гидратация
 
-Динамические `style` / Embla / mouse parallax — только после `mounted`. Не сравнивать `useReducedMotion()` на первом кадре сервера и клиента.
+Динамические `style` / Embla / mouse parallax — только после `mounted`. Не сравнивать `useReducedMotion()` на первом кадре сервера и клиента. Фоновые слои (`AmbientField`, fluid canvas) всегда рендерить одну и ту же разметку — не возвращать `null` до mount, иначе React склеит соседний canvas с клиентским div.

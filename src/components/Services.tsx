@@ -51,7 +51,7 @@ export function Services() {
     const numbers = numbersRef.current;
     if (!statsWrap || !statsPin || !cardsWrap || !cardsPin) return;
 
-    const mq = window.matchMedia("(max-width: 767px), (prefers-reduced-motion: reduce)");
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     let revert = () => {};
 
     const setup = () => {
@@ -118,11 +118,11 @@ export function Services() {
   }, []);
 
   return (
-    <section id="services" className="relative">
+    <section id="services" className="relative overflow-x-clip">
       <div ref={statsWrapRef} className="relative z-10 h-dvh">
         <div
           ref={statsPinRef}
-          className="relative z-10 flex h-dvh origin-center items-center overflow-hidden bg-ink px-6"
+          className="relative z-10 flex h-dvh w-full max-w-full origin-center items-center overflow-hidden bg-ink px-5 sm:px-6"
         >
           <div className="pointer-events-none absolute inset-0 opacity-70">
             <div
@@ -136,10 +136,10 @@ export function Services() {
           </div>
           <div className="relative mx-auto w-full max-w-7xl">
             <p className="mb-4 font-mono text-[13px] tracking-[0.12em] text-ice">02 / УСЛУГИ И ЦЕНЫ</p>
-            <h2 className="max-w-3xl font-display text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+            <h2 className="max-w-3xl font-display text-[clamp(28px,8vw,60px)] font-extrabold leading-[1.05] tracking-[-0.02em]">
               Понятные цифры до старта работы
             </h2>
-            <div ref={numbersRef} className="mt-16 grid gap-8 sm:grid-cols-3">
+            <div ref={numbersRef} className="mt-8 grid gap-5 sm:mt-16 sm:grid-cols-3 sm:gap-8">
               {stats.map((item) => (
                 <div key={item.label} className="border-t border-white/15 pt-6">
                   <div className="font-display text-[clamp(32px,4vw,52px)] font-extrabold tracking-[-0.03em]">
@@ -157,7 +157,7 @@ export function Services() {
         <div
           ref={cardsPinRef}
           data-light-section
-          className="relative z-20 flex min-h-dvh items-start bg-white px-6 pb-16 pt-32 text-ink shadow-[0_-48px_80px_rgba(0,0,0,.35)] md:rounded-t-[36px]"
+          className="relative z-20 flex min-h-dvh items-start rounded-t-[28px] bg-white px-5 pb-16 pt-28 text-ink shadow-[0_-48px_80px_rgba(0,0,0,.35)] sm:px-6 sm:pt-32 md:rounded-t-[36px]"
         >
           <div className="mx-auto w-full max-w-7xl">
             <p className="mb-4 font-mono text-[13px] tracking-[0.12em] text-blue">Что делаем</p>
