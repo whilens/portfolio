@@ -4,8 +4,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const links = [
-  { href: "#work", label: "Работы", index: "01" },
-  { href: "#services", label: "Услуги", index: "02" },
+  { href: "#work", label: "Зал", index: "01" },
+  { href: "#desk", label: "Стол", index: "02" },
   { href: "#process", label: "Процесс", index: "03" },
   { href: "#team", label: "Команда", index: "04" },
   { href: "#contact", label: "Контакты", index: "05" },
@@ -35,8 +35,11 @@ export function Header() {
     const el = document.querySelector("[data-light-section]");
     if (!el) return;
     const io = new IntersectionObserver(
-      ([entry]) => setOnLight(entry.isIntersecting && entry.intersectionRatio >= 0.4),
-      { threshold: [0.2, 0.4, 0.6, 0.8] },
+      ([entry]) => {
+        if (!entry) return;
+        setOnLight(entry.isIntersecting && entry.boundingClientRect.top < window.innerHeight * 0.55);
+      },
+      { threshold: [0, 0.05, 0.1, 0.2, 0.35] },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -62,7 +65,7 @@ export function Header() {
         open
           ? "bg-transparent text-white"
           : lightChrome
-            ? "bg-white text-ink"
+            ? "bg-[#f3f1ec] text-ink"
             : scrolled
               ? "bg-ink/70 text-white backdrop-blur-[50px]"
               : "bg-transparent text-white"

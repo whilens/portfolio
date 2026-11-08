@@ -1,9 +1,8 @@
-import { Cases } from "@/components/cases/Cases";
 import { Contact } from "@/components/Contact";
+import { Desk } from "@/components/Desk";
 import { Footer } from "@/components/Footer";
+import { Hall } from "@/components/Hall";
 import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
-import { Marquee } from "@/components/Marquee";
 import { Process } from "@/components/Process";
 import { Services } from "@/components/Services";
 import { Team } from "@/components/Team";
@@ -12,16 +11,16 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="relative z-[2] max-w-full overflow-x-clip">
-        <Hero />
-        <Marquee />
-        <Cases />
-        <Services />
-        <Process />
-        <Team />
-        <Contact />
+      <main className="max-w-full overflow-x-clip">
+        <Hall />
+        <Desk>
+          <Services />
+          <Process />
+          <Team />
+          <Contact />
+          <Footer />
+        </Desk>
       </main>
-      <Footer />
     </>
   );
 }

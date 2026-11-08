@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Manrope, Unbounded } from "next/font/google";
-import { AmbientField } from "@/components/AmbientField";
-import { WebGLFluidOverlay } from "@/components/WebGLFluidOverlay";
 import "./globals.css";
 
 const unbounded = Unbounded({
@@ -41,8 +39,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${unbounded.variable} ${manrope.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="relative min-h-full w-full max-w-full overflow-x-clip bg-ink text-white">
-        <AmbientField />
-        <WebGLFluidOverlay />
         {children}
       </body>
     </html>

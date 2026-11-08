@@ -1,5 +1,87 @@
 @import "tailwindcss";
 
+:root {
+  --dr-bg-0: #04060b;
+  --dr-bg-1: #070b16;
+  --dr-bg-2: #0a1530;
+  --dr-calm: #7c9bff;
+  --dr-mid: #2b4fe0;
+  --dr-hot: #8a5cff;
+  --dr-core: #eafcff;
+  --dr-vignette: 0.48;
+  --dr-grain: 0.045;
+  --dr-bloom-blur: 10px;
+  --dr-bloom-opacity: 0.55;
+}
+
+@keyframes dr-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dr-root {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% -8%, var(--dr-bg-2), transparent 58%),
+    radial-gradient(70% 50% at 82% 108%, color-mix(in srgb, var(--dr-mid) 22%, transparent), transparent 52%),
+    linear-gradient(180deg, var(--dr-bg-1), var(--dr-bg-0));
+  animation: dr-fade-in 0.9s ease both;
+}
+
+.dr-root--contained {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+}
+
+.dr-root canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dr-bloom {
+  z-index: 0;
+  filter: blur(var(--dr-bloom-blur));
+  opacity: var(--dr-bloom-opacity);
+  transform: translateZ(0) scale(1.04);
+}
+
+.dr-main {
+  z-index: 1;
+}
+
+.dr-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 42%, transparent 32%, rgb(4 6 11 / var(--dr-vignette)) 100%);
+}
+
+.dr-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: var(--dr-grain);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
+  background-size: 180px 180px;
+}
+
 @theme inline {
   --color-ink: #04060b;
   --color-ink-2: #070b16;
@@ -29,6 +111,11 @@ html.menu-open body {
 section[id],
 div[id] {
   scroll-margin-top: 88px;
+}
+
+#work,
+#desk {
+  scroll-margin-top: 0;
 }
 
 @media (min-width: 1024px) {
@@ -120,6 +207,57 @@ body {
   }
   50% {
     transform: translateY(-10px);
+  }
+}
+
+@keyframes kineticIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.4em, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.kinetic-wrap {
+  display: inline-block;
+  perspective: 520px;
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+.kinetic-word {
+  display: inline-flex;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.hall-vignette {
+  background:
+    radial-gradient(ellipse 70% 62% at 50% 48%, transparent 36%, rgba(4, 6, 11, 0.55) 100%),
+    linear-gradient(to bottom, rgba(4, 6, 11, 0.35), transparent 22%, transparent 78%, rgba(4, 6, 11, 0.5));
+}
+
+.desk {
+  color: #0c0d12;
+}
+
+.kinetic-letter {
+  display: block;
+  color: #7c9bff;
+  text-shadow:
+    0 1px 0 #5b7ef2,
+    0 2px 0 #4a6ee8,
+    0 3px 0 #3d5fdc,
+    0 8px 18px rgba(43, 79, 224, 0.38);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kinetic-letter {
+    animation: kineticIn 0.72s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(0.18s + var(--i, 0) * 0.055s);
   }
 }
 
@@ -255,7 +393,20 @@ body {
   .braas-gradient,
   .glow-draw,
   .glow-draw-delay,
-  .glow-orb {
+  .glow-orb,
+  .kinetic-letter {
     animation: none !important;
+  }
+
+  .dr-root {
+    animation: none;
+  }
+
+  .hall-deck {
+    display: none !important;
+  }
+
+  .hall-fallback {
+    display: flex !important;
   }
 }

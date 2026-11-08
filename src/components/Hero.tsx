@@ -1,19 +1,55 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Reveal } from "@/components/Reveal";
+
+const SELL_WORD = "продают";
+
+function KineticWord({
+  tilt,
+  mounted,
+  reduce,
+}: {
+  tilt: { x: number; y: number };
+  mounted: boolean;
+  reduce: boolean;
+}) {
+  return (
+    <span className="kinetic-wrap" aria-hidden="true">
+      <motion.span
+        className="kinetic-word"
+        style={
+          mounted && !reduce
+            ? { rotateX: tilt.y * 0.28, rotateY: tilt.x * -0.18 }
+            : undefined
+        }
+      >
+        {SELL_WORD.split("").map((letter, i) => (
+          <span
+            key={`${letter}-${i}`}
+            className="kinetic-letter"
+            style={{ "--i": i } as CSSProperties}
+          >
+            {letter}
+          </span>
+        ))}
+      </motion.span>
+    </span>
+  );
+}
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
+  const reducePref = useReducedMotion();
   const { scrollY } = useScroll();
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
+  const reduce = mounted && Boolean(reducePref);
   const orbY = useTransform(scrollY, [0, 700], [0, reduce ? 0 : 220]);
   const heroY = useTransform(scrollY, [0, 700], [0, reduce ? 0 : -90]);
   const heroOpacity = useTransform(scrollY, [0, 620], [1, reduce ? 1 : 0.15]);
   const gridY = useTransform(scrollY, [0, 700], [0, reduce ? 0 : 80]);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -70,7 +106,10 @@ export function Hero() {
           <h1 className="max-w-[1000px] font-display text-[clamp(34px,11vw,92px)] font-extrabold leading-[1.02] tracking-[-0.02em]">
             Сайты и приложения,
             <br />
-            которые <span className="text-ice">продают</span>
+            которые
+            <br />
+            <span className="sr-only">{SELL_WORD}</span>
+            <KineticWord tilt={tilt} mounted={mounted} reduce={reduce} />
             <br />
             за вас
           </h1>

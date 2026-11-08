@@ -1,60 +1,44 @@
 ---
 name: studio-portfolio
-description: Conventions for the Next.js studio one-pager in studio-portfolio. Use when editing the portfolio site, cases slider, WebGL overlay, appearance animations, or studio copy/layout.
+description: Conventions for the Next.js studio one-pager in studio-portfolio. Use when editing the portfolio site, hall/desk layout, appearance animations, or studio copy.
 ---
 
 # Studio portfolio
 
-Одностраничник в `studio-portfolio`. Стек: Next.js App Router, React, TypeScript, Tailwind, GSAP, Framer Motion, Embla. Отвечать пользователю по-русски.
+Одностраничник в `studio-portfolio`. Стек: Next.js App Router, React, TypeScript, Tailwind, GSAP, Framer Motion. Отвечать пользователю по-русски.
 
-## Страница
+## Концепция: зал + стол
 
-Порядок: Header → Hero → Marquee → **один** слайдер работ (`Cases`, `#work`) → Services (pin) → Process → Team → Contact → Footer.
+Две среды.
 
-Не возвращать второй слайдер «Избранные проекты». Не разворачивать кейсы в восемь full-page секций.
+**Зал** (`Hall`, `#work`, `#top`) — тёмная сцена и case-stack: работы лежат стопкой как папки в ящике (`CaseStackScroll`). Фон зала — canvas DataRain (`src/components/ui/data-rain.tsx`), не WebGL fluid. Ближняя карточка лицом, задние — только верхней полосой. Kinetic «продают». Клик открывает оверлей.
 
-Цифры «от 5 дней / от 10 000 ₽ / 0 ₽» живут в первом экране услуг, не в hero.
+**Стол** (`Desk`, `#desk`, `data-light-section`) — светлая плоскость `#f3f1ec`: манифест, цифры, услуги, процесс, команда, форма. 3D заканчивается, начинается сделка.
 
-## Переход услуг (ARROW)
+Порядок: Header → Hall → Desk (Services → Process → Team → Contact → Footer).
 
-`Services` — две панели 100vh. GSAP pin только у тёмных цифр (`pinSpacing: false`): они остаются в кадре, белый слой с карточками наезжает сверху. Белую панель не пинить — иначе процесс/команда уедут под неё. Pin выкл только на `prefers-reduced-motion`. Белая панель — `data-light-section`, шапка следит IntersectionObserver и инвертируется.
+Не возвращать marquee, hero-орб, fluid overlay, pin услуг поверх зала, второй каталог работ, коридор/карусель экранов.
 
-Мобилка: полноэкранное бургер-меню (stagger ссылок, бургер→крест), стрелки слайдера, орб в hero, pin услуг и облегчённый fluid. Слабый GPU / reduced-motion по-прежнему глушат симуляцию.
+## Зал
 
-## Слайдер работ
+Десктоп (`lg+`, не reduced-motion): case-stack на постерах работ, без pin. Колесо / drag / свайп / стрелки листают стопку; hover поднимает карточку лицом. На первой и последней карте скролл отдаётся странице (стол). Клик — оверлей. Видео только в оверлее. Не вставлять demo-лица и base64-фото из шаблона.
 
-В кадре: видео, клиент, название, стрелки, точки. Без PIP-кадров, чипов всех проектов, длинного summary и дублирующих CTA. Автопрокрутка паузится, пока курсор над слайдом.
+Мобилка / reduced-motion: 3D выкл. Заголовок в потоке, вертикальная лента постеров без видео.
 
-Видео: играет только активный слайд в viewport (`BackgroundVideo` + IntersectionObserver). `preload="none"`. На `prefers-reduced-motion` не автоплееить.
+## Стол
 
-Ролики: Avantage/Braas/Progresco — готовые файлы; остальные — `public/videos/{slug}.webm`.
+Цифры «от 5 дней / от 10 000 ₽ / 0 ₽» только здесь. Шапка инвертируется, когда верх стола входит в кадр (`Header` IntersectionObserver, не `intersectionRatio >= 0.4` — стол длинный).
 
-## Появление (референсы)
+## Появление
 
-Не тащить WOW.js / animate.css. Повторять характер:
-
-- WOT / Avantage: `opacity 0` + `translateY(20px)`, порог ~0.35, один раз
-- VR: вход снизу у текста, слева у крупных кадров (`Reveal from="left"`)
-- KC-STUDIO: stagger карточек `delay={i * 0.08}`
-- Южный парк: pin + zoom только если явно просят scroll-story
-
-Компонент: `src/components/Reveal.tsx`. Hero — `instant` + stagger delay. `prefers-reduced-motion` выключает смещение.
-
-## Фон
-
-- WebGL fluid: только случайные автооблака, **без splat по мыши**
-- На узком экране ниже разрешение (96/256), выкл на weak GPU / reduced-motion
-- Светящиеся линии и орбы — `AmbientField`, параллакс скролла и лёгкий сдвиг от курсора; монтировать после hydration
-- DPR cap 1
+`Reveal`: fade + `translateY(20px)`, порог ~0.35, один раз. Hero/зал — kinetic CSS, не WOW.js. `prefers-reduced-motion` выключает смещение и pin зала.
 
 ## Визуал
 
-`#04060B` / акцент `#2B4FE0` / `#7C9BFF`. Шрифты Unbounded / Manrope / JetBrains Mono. Плейсхолдеры (`[Название студии]`, коллега, часть цен) не выдумывать.
+Зал: `#04060B` / `#2B4FE0` / `#7C9BFF`. Стол: бумага `#f3f1ec`, текст `#0c0d12`. Шрифты Unbounded / Manrope / JetBrains Mono. Плейсхолдеры не выдумывать.
 
 Форма — только UI-успех, без бэкенда.
 
-Атрибуция MIT fluid: Pavel Dobryakov в футере.
-
 ## Гидратация
 
-Динамические `style` / Embla / mouse parallax — только после `mounted`. Не сравнивать `useReducedMotion()` на первом кадре сервера и клиента. Фоновые слои (`AmbientField`, fluid canvas) всегда рендерить одну и ту же разметку — не возвращать `null` до mount, иначе React склеит соседний canvas с клиентским div.
+Одинаковая разметка зала на сервере и клиенте: десктоп-риг `hidden lg:block`, лента `lg:hidden` — оба в DOM. `--cam` и pin только после mount. Не сравнивать `useReducedMotion()` на первом кадре.
