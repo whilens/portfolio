@@ -3,14 +3,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState, type CSSProperties } from "react";
 import { BackgroundVideo } from "@/components/BackgroundVideo";
-import CaseStackScroll from "@/components/ui/case-stack-scroll";
-import DataRain from "@/components/ui/data-rain";
+import CurvedShowreel from "@/components/ui/curved-showreel";
 import { projects, type Project } from "@/data/projects";
 
 const LINE = "Сайты, которые";
 const SELL = "продают";
 
-const stackCards = projects.map((project) => ({
+const reelItems = projects.map((project) => ({
   title: project.title,
   category: project.client,
   image: project.poster,
@@ -82,11 +81,6 @@ export function Hall() {
       </div>
 
       <div className="relative lg:h-dvh lg:overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 z-0 hidden overflow-hidden lg:block">
-          <DataRain fullscreen={false} count={2200} flowSpeed={0.85} obstacleRadius={72} />
-        </div>
-        <div className="hall-vignette pointer-events-none absolute inset-0 z-10 hidden lg:block" />
-
         <div className="relative z-20 px-5 pb-4 pt-28 sm:px-8 lg:pointer-events-none lg:absolute lg:inset-x-0 lg:top-24 lg:px-12 lg:pb-0 lg:pt-0">
           <p className="font-mono text-[12px] tracking-[0.16em] text-ice">01 / ЗАЛ</p>
           <h1 className="mt-3 font-display text-[clamp(22px,6vw,26px)] font-semibold tracking-[-0.02em] text-[#c9d2e6] lg:flex lg:flex-wrap lg:items-baseline lg:gap-3">
@@ -99,13 +93,10 @@ export function Hall() {
         </div>
 
         <div className={`hall-deck absolute inset-0 z-[12] hidden lg:block${opened ? " invisible pointer-events-none" : ""}`}>
-          <CaseStackScroll
-            cards={stackCards}
+          <CurvedShowreel
+            items={reelItems}
             loop={false}
-            height="100%"
-            countLabel="работ"
             cursorLabel="Смотреть работы"
-            chrome
             ariaLabel="Зал работ"
             onSelect={(_, i) => setOpened(projects[i] ?? null)}
           />
