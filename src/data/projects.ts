@@ -42,7 +42,7 @@ export const projects: Project[] = [
     ],
     summary:
       "Коммерческий лендинг с каталогом фактур и мягким fade-up: товар виден сразу, заявка — в двух кликах.",
-    video: "/videos/avantage.mp4",
+    video: "/videos/avantage.webm",
     poster: "/posters/avantage.png",
     accent: "#C9A36A",
   },
@@ -110,7 +110,7 @@ export const projects: Project[] = [
     ],
     summary:
       "Референс интерфейса магазина: карточка товара оживает при наведении и сразу показывает характер бренда.",
-    video: "/videos/braas.mp4",
+    video: "/videos/braas.webm",
     poster: "/posters/braas.png",
     accent: "#C084FC",
   },

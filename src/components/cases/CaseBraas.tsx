@@ -23,7 +23,7 @@ export function CaseBraas() {
       >
         <div className="relative h-[42vh] min-h-[280px]">
           <BackgroundVideo
-            src="/videos/braas.mp4"
+            src="/videos/braas.webm"
             poster="/posters/braas.png"
             className="mix-blend-luminosity opacity-80"
           />

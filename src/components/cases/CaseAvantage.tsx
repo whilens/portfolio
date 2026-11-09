@@ -16,7 +16,7 @@ export function CaseAvantage() {
     <CaseShell slug="avantage" className="bg-[#1a1510]">
       <div className="relative mx-6 mb-16 overflow-hidden rounded-[28px]">
         <div className="relative h-[52vh] min-h-[360px]">
-          <BackgroundVideo src="/videos/avantage.mp4" poster="/posters/avantage.png" />
+          <BackgroundVideo src="/videos/avantage.webm" poster="/posters/avantage.png" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a1510] via-black/30 to-transparent" />
           <p className="absolute bottom-8 left-8 font-display text-3xl">Каталог, который продаёт фактуру</p>
         </div>
